@@ -1,15 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { AuthService } from '../core/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
+  error: string;
 
-  constructor() { }
+  constructor(readonly router: Router, readonly auth: AuthService) {}
 
-  ngOnInit(): void {
+  login(userId: string) {
+    this.auth
+      .login(userId)
+      .then(
+        () => this.router.navigateByUrl('/chat'),
+        err => (this.error = err)
+      );
   }
-
 }
